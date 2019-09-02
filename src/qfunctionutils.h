@@ -2,7 +2,7 @@
 #include <QSharedPointer>
 #include <QTimer>
 
-namespace FunctionUtils
+namespace QFunctionUtils
 {
 
 // function used to cache user arguments to be able to use them once timer times out
