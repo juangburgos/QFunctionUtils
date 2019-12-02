@@ -1,3 +1,6 @@
+#ifndef QFUNCTIONUTILS_H
+#define QFUNCTIONUTILS_H
+
 #include <functional>
 #include <QSharedPointer>
 #include <QTimer>
@@ -138,3 +141,5 @@ auto Throttle(T callback, const int &delay)
 }
 
 }
+
+#endif // QFUNCTIONUTILS_H
