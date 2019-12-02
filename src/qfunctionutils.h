@@ -13,7 +13,7 @@ void debounce_args_cache(const std::function<R(Args(...args))> &funcFinish, Args
 }
 
 typedef QSharedPointer<QMetaObject::Connection> QMetaConnPtr;
-// debounce implmentation using std::function
+// debounce implementation
 // gets a user defined function as an argument and a 'delay' in miliseconds
 // returns a new function that the user can call many times, but will only execute the last
 // call after 'delay' miliseconds have passed
@@ -23,7 +23,7 @@ std::function<R(Args(...args))> debounce_internal(const std::function<R(Args(...
 	QTimer * timer = new QTimer;
 	QMetaConnPtr conn = QMetaConnPtr(new QMetaObject::Connection,
 		[timer](QMetaObject::Connection * pConn) mutable {
-		// connection will be deleted when returned function goes out of scope, but not timer not
+		// connection will be deleted when returned function goes out of scope, but not the timer
 		// so we need to delete it manually
 		delete pConn;
 		delete timer;
@@ -50,6 +50,8 @@ std::function<R(Args(...args))> debounce_internal(const std::function<R(Args(...
 	};
 }
 
+// throttle implementation
+// same as debounce, but also calls the given function the first time is called
 template<typename R, class ...Args>
 std::function<R(Args(...args))> throttle_internal(const std::function<R(Args(...args))> &callback, const int &delay)
 {
