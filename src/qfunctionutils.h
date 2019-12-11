@@ -121,23 +121,22 @@ struct functor_traits<R(*)(Args...)>
 	using lambda_type = std::function<R(Args...)>;
 };
 // wrap any of the specializations above into an std::function
-template<typename T> auto make_std_function(const T& fn)
+template<typename T> 
+auto make_std_function(const T& fn) -> typename functor_traits<T>::lambda_type
 {
 	return typename functor_traits<T>::lambda_type(fn);
 }
 // convert callback into std::function and call internal debounce
 template<typename T>
-auto Debounce(T callback, const int &delay)
+auto Debounce(T callback, const int &delay) -> typename functor_traits<T>::lambda_type
 {
-	const auto f = make_std_function(callback);
-	return debounce_internal(f, delay);
+	return debounce_internal(make_std_function(callback), delay);
 }
 // convert callback into std::function and call internal throttle
 template<typename T>
-auto Throttle(T callback, const int &delay)
+auto Throttle(T callback, const int &delay) -> typename functor_traits<T>::lambda_type
 {
-	const auto f = make_std_function(callback);
-	return throttle_internal(f, delay);
+	return throttle_internal(make_std_function(callback), delay);
 }
 
 }
